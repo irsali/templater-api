@@ -32,6 +32,6 @@ if (!MONGODB_URI) {
 // target access token
 export const ACCESS_TOKEN = process.env["ACCESS_TOKEN"];
 
-export const v3_endpoint = 'https://api.github.com/';
+export const v3Endpoint = 'https://api.github.com/';
 export const templateOwner = 'your-cloud';
 export const targetOwner = 'your-cloud';

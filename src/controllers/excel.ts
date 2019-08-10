@@ -84,7 +84,7 @@ export const postExcelToGithub = async (req: Request, res: Response) => {
     });
 
     // check if github repo is already available
-    var isExistARes = await http.get(`${secrets.v3_endpoint}repos/${secrets.targetOwner}/${projectName}`,
+    var isExistARes = await http.get(`${secrets.v3Endpoint}repos/${secrets.targetOwner}/${projectName}`,
         {
             Authorization: `token ${secrets.ACCESS_TOKEN}`,
             Accept: 'application/vnd.github.baptiste-preview+json'
@@ -95,7 +95,7 @@ export const postExcelToGithub = async (req: Request, res: Response) => {
     if (isExistARes.statusCode == 404) {
         // create repo from the intended template
         var repoRes = await http.post(
-            `${secrets.v3_endpoint}repos/${secrets.templateOwner}/${templateName}/generate`,
+            `${secrets.v3Endpoint}repos/${secrets.templateOwner}/${templateName}/generate`,
             {
                 "name": projectName
             },
@@ -108,7 +108,7 @@ export const postExcelToGithub = async (req: Request, res: Response) => {
         // enable gh-pages
         if (repoRes) {
             var isGhPagesEnabledRes = await http.post(
-                `${secrets.v3_endpoint}repos/${secrets.templateOwner}/${projectName}/pages`,
+                `${secrets.v3Endpoint}repos/${secrets.templateOwner}/${projectName}/pages`,
                 {
                     "source": {
                         "branch": "master",
@@ -137,7 +137,7 @@ export const postExcelToGithub = async (req: Request, res: Response) => {
         try {
 
             var isFileUploaded = await http.put(
-                `${secrets.v3_endpoint}repos/${secrets.targetOwner}/${projectName}/contents/Assets/Jsons/${jsons[0].name}.json`,
+                `${secrets.v3Endpoint}repos/${secrets.targetOwner}/${projectName}/contents/Assets/Jsons/${jsons[0].name}.json`,
                 {
                     "message": `Added ${jsons[0].name}`,
                     "content": jsons[0].content
