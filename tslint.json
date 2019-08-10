@@ -1,0 +1,11 @@
+{
+    "variable-name": {
+        "options": [
+            "ban-keywords",
+            "check-format",
+            "allow-underscore",
+            "allow-leading-underscore",
+            "allow-pascal-case"
+        ]
+    }
+}
