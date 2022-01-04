@@ -2,8 +2,8 @@ import { Response, Request, NextFunction } from "express";
 import async from "async";
 import fs from "fs";
 import XLSX from "xlsx";
-import * as http from '../util/http';
-import * as secrets from '../util/secrets';
+import * as http from "../util/http";
+import * as secrets from "../util/secrets";
 
 export const postExcelToJson = (req: Request, res: Response) => {
 
@@ -48,7 +48,7 @@ export const postExcelToGithub = async (req: Request, res: Response) => {
     var templateName = req.body.templateName;
     var filesArray: any = req.files;
 
-    var jsons: Array<{ name: string, content: any }> = [];
+    var jsons: { name: string; content: any }[] = [];
     async.each(filesArray, function (file: any, eachcallback) {
         //carry out your file operations here and pass callback at the end
         console.log(file);
@@ -61,7 +61,7 @@ export const postExcelToGithub = async (req: Request, res: Response) => {
                 name: value,
                 content: new Buffer(JSON.stringify(XLSX.utils.sheet_to_json(workbook.Sheets[value]))).toString("base64")
             });
-        })
+        });
 
         // remove temp file
         try {
@@ -87,7 +87,7 @@ export const postExcelToGithub = async (req: Request, res: Response) => {
     var isExistARes = await http.get(`${secrets.v3Endpoint}repos/${secrets.targetOwner}/${projectName}`,
         {
             Authorization: `token ${secrets.ACCESS_TOKEN}`,
-            Accept: 'application/vnd.github.baptiste-preview+json'
+            Accept: "application/vnd.github.baptiste-preview+json"
         }
     );
 
@@ -101,7 +101,7 @@ export const postExcelToGithub = async (req: Request, res: Response) => {
             },
             {
                 Authorization: `token ${secrets.ACCESS_TOKEN}`,
-                Accept: 'application/vnd.github.baptiste-preview+json'
+                Accept: "application/vnd.github.baptiste-preview+json"
             }
         );
 
@@ -117,7 +117,7 @@ export const postExcelToGithub = async (req: Request, res: Response) => {
                 },
                 {
                     Authorization: `token ${secrets.ACCESS_TOKEN}`,
-                    Accept: 'application/vnd.github.switcheroo-preview+json'
+                    Accept: "application/vnd.github.switcheroo-preview+json"
                 }
             );
             // console.log(isGhPagesEnabledRes);
@@ -127,7 +127,7 @@ export const postExcelToGithub = async (req: Request, res: Response) => {
     else if (isExistARes.statusCode == 200) {
         // do nothing
     } else {
-        console.log('unexpected condition');
+        console.log("unexpected condition");
     }
 
     // push json files into assets of the target repo
@@ -144,7 +144,7 @@ export const postExcelToGithub = async (req: Request, res: Response) => {
                 },
                 {
                     Authorization: `token ${secrets.ACCESS_TOKEN}`,
-                    Accept: 'application/vnd.github.v3+json'
+                    Accept: "application/vnd.github.v3+json"
                 }
             );
             // console.log(isFileUploaded);
